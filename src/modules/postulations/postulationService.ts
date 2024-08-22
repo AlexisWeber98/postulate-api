@@ -3,7 +3,7 @@ const { Postulations, User } = require("../../db");
 
 
 export const postPostulation = async (body: any) => {
-  const { date, position, company, trough, userId , status, description, sendCv, sendEmail, recruiterContact} = body
+  const { date, position, company, trough, userId , status, description, sendCv, sendEmail, recruiterContact    } = body
 
     try {
       const findUserId = await User.findByPk(userId);
@@ -32,4 +32,14 @@ export const postPostulation = async (body: any) => {
         
     }
 };
+
+export const getAllPostulations = async(userId: string) => {
+   try {
+       const data = await Postulations.findAll({ where: { userId }});
+       return data;
+       
+   }catch (error){
+       throw error;
+   } 
+}
 
