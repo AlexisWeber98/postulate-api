@@ -7,7 +7,7 @@ export interface ReqPostBody {
   status: string;
   userId: string;
   description?:string;
-  send_email?:boolean;
-  send_cv:boolean;
-  recruiter_contact: string;
+  sendEmail?:boolean;
+  sendCv:boolean;
+  recruiterContact: string;
 }
