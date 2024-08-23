@@ -13,11 +13,11 @@ export function defineUserModel(sequelize: Sequelize) {
       allowNull: false,
     },
 
-    last_name: {
+    lastName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user_name: {
+    userName: {
       unique: true,
       type: DataTypes.STRING,
       allowNull: false,
