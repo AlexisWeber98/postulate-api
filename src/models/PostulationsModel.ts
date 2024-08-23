@@ -44,15 +44,15 @@ export function definePostulationsModel(sequelize: Sequelize) {
       allowNull: true,
     },
 
-    send_email: {
+    sendEmail: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
-    send_cv: {
+    sendCv: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
-    recruiter_contact: {
+    recruiterContact: {
       type: DataTypes.STRING,
       allowNull: true,
     },
