@@ -14,28 +14,3 @@ if (!userId) return { message: "userId is required" };
     return null;
   }
 }
-
-export function validationPostUser(
-  name: string,
-  last_name: string,
-  user_name: string,
-  email: string,
-  password: string
-) {
-  if (!name) return { message: "name is required" };
-  if (!last_name) return { message: "last_name is required" };
-  if (!user_name) return { message: "user_name is required" };
-  if (!email) return { message: "email is required" };
-  if (!password) return { mesage: "password is required" };
-  else {
-    return ;
-  }
-}
-
-export function validationLogin(email: string, password: string) {
-  if (!email) return { message: "email is required" };
-  if (!password) return { message: "password is required" };
-  else {
-    return ;
-  }
-}
