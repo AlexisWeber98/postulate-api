@@ -32,13 +32,13 @@ export const createUserController = async (req:Request, res:Response) => {
     }
 
 export const loginController = async (req:Request, res:Response) => { 
-    const { userName, password } = req.body; 
-    const errors = validationLogin(userName, password);
+    const { email, password } = req.body; 
+    const errors = validationLogin(email, password);
     
     if (errors) res.status(400).json(errors);
     
     try {
-        const data = await login(userName, password);
+        const data = await login(email, password);
         
         const response = {
             result: "Ok",
@@ -52,6 +52,7 @@ export const loginController = async (req:Request, res:Response) => {
             result: "Error",
             error
         };
+        res.status(500).json(response);
     };
 }
 
