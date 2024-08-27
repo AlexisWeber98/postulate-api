@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
   username: DB_USER,
   password:DB_PASSWORD,
   database: DB_NAME,
-  port: parseInt(`${DB_PORT}`, 5432)
+  port: parseInt(`${DB_PORT}`)
 });
 
 const models = {
