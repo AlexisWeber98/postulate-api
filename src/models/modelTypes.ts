@@ -9,7 +9,8 @@ export interface PostulationsModelInterface {
 export interface UserModelInterface {
   id: String;
   name: String;
-  user_handle: String;
+  userName: String;
+  lastName: String;
   email: String;
   password: String;
 }
