@@ -11,6 +11,8 @@ export const createUser = async (name: string, lastName: string, userName: strin
             password
         });
         
+        return data;
+        
     } catch (error){
         throw error;
     };
