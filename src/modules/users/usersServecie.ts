@@ -1,4 +1,8 @@
-const { User } = require ("../../db")
+import db from "../../db";
+import { Model } from "sequelize";
+import { UserModelInterface } from "../../models/modelTypes";
+const { User } = db.models;
+
 
 export const createUser = async (name: string, lastName: string, userName: string, email:string, password:string) => { 
     
@@ -11,20 +15,24 @@ export const createUser = async (name: string, lastName: string, userName: strin
             password
         });
         
+        
         return data;
         
     } catch (error){
-        throw error;
+        return {
+        message: "error al crear usuario en create user",
+       error
+    }
     };
 };
 
 export const login = async (email: string, password: string) => {
     try { 
-        const user = await User.findOne({ where: { email } });
-        
+        const user = await User.findOne({ where: { email } }) as Model<UserModelInterface, any>;
+
         if (!user) throw new Error("User not Found");
         
-        if (user.password !== password) throw new Error("Passord not match");
+        if (user.get('password') !== password) throw new Error("Password not match");
         
         return user;
     } catch (error) {
