@@ -22,11 +22,11 @@ const models = {
 };
 
 // Relación de muchos a muchos entre User y Postulations
-models.User.belongsToMany(models.Postulations, {
-  through: "User_Postulations",
+models.User.hasMany(models.Postulations, {
+  foreignKey: 'userId',
 });
-models.Postulations.belongsToMany(models.User, {
-  through: "User_Postulations",
+models.Postulations.belongsTo(models.User, {
+  foreignKey: 'userId',
 });
 
 export default { models, sequelize };
