@@ -1,9 +1,15 @@
 export interface PostulationsModelInterface {
   id: Number;
+  userId: String;
   position: String;
   company: String;
   date: String;
   through: String;
+  status: String;
+  description: String;
+  sendCv: String;
+  sendEmail: String;
+  recruiterContact: String;
 }
 
 export interface UserModelInterface {
@@ -14,3 +20,8 @@ export interface UserModelInterface {
   email: String;
   password: String;
 }
+
+
+
+
+
