@@ -8,9 +8,9 @@ export const postPostulationController = async (req: Request, res: Response) => 
   
   const errors = validationPostPostulation(date, position, company, trough, userId);
   
-  if (errors) return res.status(404).json(errors);
-  
   try {
+  
+  if (errors) return res.status(404).json(errors);
       
       const data = await postPostulation(req.body)
       
@@ -19,7 +19,7 @@ export const postPostulationController = async (req: Request, res: Response) => 
           data
       };
       
-      return res.status(200).json(response);
+      res.status(200).json(response);
   } catch(error) {
     
       const response = {
