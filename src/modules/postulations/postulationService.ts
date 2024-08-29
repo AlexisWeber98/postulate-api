@@ -1,9 +1,12 @@
-import { Request, Response } from "express";
-const { Postulations, User } = require("../../db");
-
+import db from "../../db";
+import { Model } from "sequelize";
+import { PostulationsModelInterface } from "../../models/modelTypes";
+const { Postulations, User } = db.models;
 
 export const postPostulation = async (body: any) => {
   const { date, position, company, trough, userId , status, description, sendCv, sendEmail, recruiterContact    } = body
+  
+  console.log(body)
 
     try {
       const findUserId = await User.findByPk(userId);
@@ -21,8 +24,6 @@ export const postPostulation = async (body: any) => {
         sendEmail,
         recruiterContact
       });
-      
-    await findUserId.addPostulation(data);
 
         return data;
         
