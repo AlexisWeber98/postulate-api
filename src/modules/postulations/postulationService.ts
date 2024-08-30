@@ -25,7 +25,7 @@ export const postPostulation = async (body: any) => {
         recruiterContact
       });
 
-        return data;
+       return data? data: "withouth data"
         
     } catch (error) {
 
@@ -37,10 +37,20 @@ export const postPostulation = async (body: any) => {
 export const getAllPostulations = async(userId: string) => {
    try {
        const data = await Postulations.findAll({ where: { userId }});
-       return data;
+       
+       return data? data: "withouth data"
        
    }catch (error){
        throw error;
    } 
+}
+
+export const getPostulationById = async( postulationId:string) => {
+    try {
+        const data = await Postulations.findOne({ where: {id: postulationId } });
+        return data? data: "withouth data"
+    } catch (error){
+        throw error;
+    }
 }
 
