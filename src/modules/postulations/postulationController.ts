@@ -35,9 +35,11 @@ export const postPostulationController = async (req: Request, res: Response) => 
 
 export const getAllPostulationsController = async (req: Request, res: Response) => {
     const { userId } = req.body
+    const { date, position, company, trough, status, sendCv, sendEmail } = req.query;
     
     try {
-        const data = await getAllPostulations(userId);
+        const filters = {date, position, company, trough, status, sendCv, sendEmail };
+        const data = await getAllPostulations(userId, filters);
         
         const response = {
             result: "Ok",
