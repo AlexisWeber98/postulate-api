@@ -34,9 +34,23 @@ export const postPostulation = async (body: any) => {
     }
 };
 
-export const getAllPostulations = async(userId: string) => {
+export const getAllPostulations = async(userId: string, filters: any ) => {
    try {
-       const data = await Postulations.findAll({ where: { userId }});
+       const whereClause: any = {} 
+       
+       // Agregar filtros opcionales si están presentes
+    
+            whereClause.userId = userId;
+            if (filters.date) whereClause.date = filters.date;
+            if (filters.position) whereClause.position = filters.position;
+            if (filters.company) whereClause.company = filters.company;
+            if (filters.trough) whereClause.trough = filters.trough;
+            if (filters.status) whereClause.status = filters.status;
+            if (filters.description) whereClause.description = filters.description;
+            if (filters.sendCv !== undefined) whereClause.sendCv = filters.sendCv === 'true';
+            if (filters.sendEmail !== undefined) whereClause.sendEmail = filters.sendEmail === 'true';
+            console.log("Where Clause:", whereClause);
+       const data = await Postulations.findAll({ where: whereClause  });
        
        return data? data: "withouth data"
        
