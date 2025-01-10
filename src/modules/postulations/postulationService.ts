@@ -37,9 +37,6 @@ export const postPostulation = async (body: any) => {
 export const getAllPostulations = async(userId: string, filters: any ) => {
    try {
        const whereClause: any = {} 
-       
-       // Agregar filtros opcionales si están presentes
-    
             whereClause.userId = userId;
             if (filters.date) whereClause.date = filters.date;
             if (filters.position) whereClause.position = filters.position;
