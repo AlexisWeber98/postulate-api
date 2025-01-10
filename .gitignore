@@ -4,3 +4,4 @@ config.js
 *.log
 tsconfig.json
 *build
+dist/
