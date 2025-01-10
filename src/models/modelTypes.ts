@@ -1,5 +1,5 @@
 export interface PostulationsModelInterface {
-  id: Number;
+  id: String;
   userId: String;
   position: String;
   company: String;
@@ -8,7 +8,7 @@ export interface PostulationsModelInterface {
   status: String;
   description: String;
   sendCv: String;
-  sendEmail: String;
+  sendEmail: Boolean;
   recruiterContact: String;
 }
 
