@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { validationLogin, validationPostUser } from "./validation";
 import { ReqUserBody } from "./interface";
-import { createUser, login } from "./usersServecie";
+import { createUser, login, userUpadeService } from "./usersServecie";
+import serverResponse from "../../utils/response";
 
 export const createUserController = async (req: Request, res: Response) => {
   const { name, lastName, userName, email, password }: ReqUserBody = req.body;
@@ -54,6 +55,9 @@ export const loginController = async (req: Request, res: Response) => {
 
 export const userUpdateController = async (req: Request, res: Response) => {
   try {
+    const { data, userId } = req.body;
+    const user = await userUpadeService(userId, data);
+    return res.status(200).json(serverResponse("Ok", { user }));
   } catch (error) {}
 };
 

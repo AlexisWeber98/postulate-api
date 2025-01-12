@@ -39,3 +39,16 @@ export const login = async (email: string, password: string) => {
         throw error;
     };
 }
+
+export const userUpadeService = async (userId: string, data: object) => {
+  try {
+  const user = await User.findByPk(userId);
+  if (!user) throw new Error("User not found");
+
+  await user.update(data);
+
+  return user;
+} catch (error) {
+  throw error;
+}
+};
