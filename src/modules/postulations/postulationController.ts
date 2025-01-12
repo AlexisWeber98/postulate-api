@@ -5,7 +5,10 @@ import {
   getAllPostulations,
   postPostulation,
   getPostulationById,
+  updatePostulationService,
+  deletePostulationService,
 } from "./postulationService";
+import serverResponse from "../../utils/response";
 
 export const postPostulationController = async (
   req: Request,
@@ -22,23 +25,14 @@ export const postPostulationController = async (
   );
 
   try {
-    if (errors) return res.status(404).json(errors);
+    if (errors)
+      return res.status(400).json(serverResponse("ValidationError", errors));
 
-    const data = await postPostulation(req.body);
+    const postulation = await postPostulation(req.body);
 
-    const response = {
-      result: "Ok",
-      data,
-    };
-
-    res.status(200).json(response);
+    return res.status(200).json(serverResponse("Ok", { postulation }));
   } catch (error: any) {
-    const response = {
-      result: "Error",
-      error: error.message,
-    };
-
-    res.status(500).json(response);
+    return res.status(500).json(serverResponse("Error", error.message));
   }
 };
 
@@ -51,30 +45,23 @@ export const getAllPostulationsController = async (
     req.query;
 
   try {
-    const filters = {
-      date,
-      position,
-      company,
-      trough,
-      status,
-      sendCv,
-      sendEmail,
-    };
-    const data = await getAllPostulations(userId, filters);
+    const filters = Object.fromEntries(
+      Object.entries({
+        date,
+        position,
+        company,
+        trough,
+        status,
+        sendCv,
+        sendEmail,
+      }).filter(([_, value]) => value !== undefined),
+    );
 
-    const response = {
-      result: "Ok",
-      data,
-    };
+    const postulation = await getAllPostulations(userId, filters);
 
-    res.status(200).json(response);
+    return res.status(200).json(serverResponse("Ok", { postulation }));
   } catch (error: any) {
-    const response = {
-      result: "Error",
-      error: error.message,
-    };
-
-    res.status(500).json(response);
+    return res.status(500).json(serverResponse("Error", error.message));
   }
 };
 
@@ -85,21 +72,11 @@ export const getPostulationByIdController = async (
   const { id: postulationId } = req.params;
 
   try {
-    const data = await getPostulationById(postulationId);
+    const postulation = await getPostulationById(postulationId);
 
-    const response = {
-      result: "Ok",
-      data,
-    };
-
-    res.status(200).json(response);
+    return res.status(200).json(serverResponse("Ok", { postulation }));
   } catch (error: any) {
-    const response = {
-      result: "Error",
-      error: error.message,
-    };
-
-    res.status(500).json(response);
+    return res.status(500).json(serverResponse("Error", error.message));
   }
 };
 
@@ -107,21 +84,27 @@ export const updatePostulationController = async (
   req: Request,
   res: Response,
 ) => {
+  const { data, postulationId } = req.body;
+
   try {
-    
-  } catch(error) {
-    
+    const postulation = await updatePostulationService(postulationId, data);
+
+    return res.status(200).json(serverResponse("Ok", { postulation }));
+  } catch (error: any) {
+    return res.status(500).json(serverResponse("Error", error.message));
   }
 };
-
 
 export const deletePostulationController = async (
   req: Request,
   res: Response,
 ) => {
+  const { id } = req.body;
   try {
-    
-  } catch(error) {
-    
+    const postulation = await deletePostulationService(id);
+
+    return res.status(200).json(serverResponse("Ok", { postulation }));
+  } catch (error: any) {
+    return res.status(500).json(serverResponse("Error", error.message));
   }
 };
