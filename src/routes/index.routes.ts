@@ -3,20 +3,20 @@ import { postPostulationController, getAllPostulationsController, getPostulation
 
 const route = require('express').Router();
 
-// postulations
+// { ------------- Postulations --------------- } \\
 
 route.post("/postulation", postPostulationController)
 route.get("/postulations", getAllPostulationsController)
 route.get("/postulation/:id", getPostulationByIdController)
-route.put("/postulation/:id", updatePostulationController)
+route.patch("/postulation", updatePostulationController)
 route.delete('/postulation/:id', deletePostulationController)
 
 
-// Users
+// { ------------- Users --------------- } \\
 
 route.post("/user", createUserController);
 route.get("/login", loginController);   
-route.put('/user/:id', userUpdateController)
+route.patch('/user/:id', userUpdateController)
 route.delete('/usrer/:id', deleteUserController)
 
 export = route;
