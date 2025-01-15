@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { ReqPostBody } from "./interface";
 import { validationPostPostulation } from "./validaton";
 import {
-  getAllPostulations,
-  postPostulation,
-  getPostulationById,
+  getAllPostulationsService,
+  postPostulationService,
+  getPostulationByIdService,
   updatePostulationService,
   deletePostulationService,
 } from "./postulationService";
@@ -28,7 +28,7 @@ export const postPostulationController = async (
     if (errors)
       return res.status(400).json(serverResponse("ValidationError", errors));
 
-    const postulation = await postPostulation(req.body);
+    const postulation = await postPostulationService(req.body);
 
     return res.status(200).json(serverResponse("Ok", { postulation }));
   } catch (error: any) {
@@ -40,11 +40,16 @@ export const getAllPostulationsController = async (
   req: Request,
   res: Response,
 ) => {
-  const { userId } = req.body;
+  const { id: userId } = req.params;
   const { date, position, company, trough, status, sendCv, sendEmail } =
     req.query;
 
   try {
+    if (!userId)
+      return res
+        .status(400)
+        .json(serverResponse("Error", { message: "userId not found" }));
+
     const filters = Object.fromEntries(
       Object.entries({
         date,
@@ -57,10 +62,12 @@ export const getAllPostulationsController = async (
       }).filter(([_, value]) => value !== undefined),
     );
 
-    const postulation = await getAllPostulations(userId, filters);
+    const postulations = await getAllPostulationsService(userId, filters);
 
-    return res.status(200).json(serverResponse("Ok", { postulation }));
+    return res.status(200).json(serverResponse("Ok", { postulations }));
   } catch (error: any) {
+    console.error("Error in getAllPostulationsController:", error);
+
     return res.status(500).json(serverResponse("Error", error.message));
   }
 };
@@ -72,7 +79,7 @@ export const getPostulationByIdController = async (
   const { id: postulationId } = req.params;
 
   try {
-    const postulation = await getPostulationById(postulationId);
+    const postulation = await getPostulationByIdService(postulationId);
 
     return res.status(200).json(serverResponse("Ok", { postulation }));
   } catch (error: any) {

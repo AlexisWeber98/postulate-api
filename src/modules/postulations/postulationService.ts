@@ -4,7 +4,7 @@ import { PostulationsModelInterface } from "../../models/modelTypes";
 import { ReqPostBody } from "./interface";
 const { Postulations, User } = db.models;
 
-export const postPostulation = async (body: ReqPostBody) => {
+export const postPostulationService= async (body: ReqPostBody) => {
   const {
     date,
     position,
@@ -41,7 +41,7 @@ export const postPostulation = async (body: ReqPostBody) => {
   }
 };
 
-export const getAllPostulations = async (userId: string, filters: any) => {
+export const getAllPostulationsService = async (userId: string, filters: any) => {
   try {
     const whereClause: any = {};
     whereClause.userId = userId;
@@ -64,7 +64,7 @@ export const getAllPostulations = async (userId: string, filters: any) => {
   }
 };
 
-export const getPostulationById = async (postulationId: string) => {
+export const getPostulationByIdService = async (postulationId: string) => {
   try {
     const data = await Postulations.findByPk(postulationId);
 
