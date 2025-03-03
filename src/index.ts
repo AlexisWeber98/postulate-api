@@ -1,7 +1,7 @@
-import app from "./app";
-import db from "./db";
+import { app } from "./app.js";
+import db from "./db.js";
 
-const { SERVER_PORT } = process.env;
+const serverPort = process.env.SERVER_PORT || "3001";
 
 db.sequelize
   .authenticate()
@@ -10,12 +10,12 @@ db.sequelize
     return db.sequelize.sync({ force: false });
   })
   .then(() => {
-    app.listen(`${SERVER_PORT}`, () => {
+    app.listen(parseInt(serverPort, 10), () => {
       console.log(
-        `Servidor y base de datos sincronizados y escuchando en el puerto ${SERVER_PORT}`,
+        `Servidor y base de datos sincronizados y escuchando en el puerto ${serverPort}`,
       );
     });
   })
-  .catch((err: Error) =>
-    console.error("No se pudo conectar a la base de datos:", err),
-  );
+  .catch((err: Error) => {
+    console.error("No se pudo conectar a la base de datos:", err);
+  });

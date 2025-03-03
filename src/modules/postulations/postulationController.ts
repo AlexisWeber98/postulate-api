@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { ReqPostBody } from "./interface";
-import { validationPostPostulation } from "./validaton";
+import { ReqPostBody } from "./interface.js";
+import { validationPostPostulation } from "./validaton.js";
 import {
   getAllPostulationsService,
   postPostulationService,
   getPostulationByIdService,
   updatePostulationService,
   deletePostulationService,
-} from "./postulationService";
-import serverResponse from "../../utils/response";
+} from "./postulationService.js";
+import serverResponse from "../../utils/response.js";
 
 export const postPostulationController = async (
   req: Request,

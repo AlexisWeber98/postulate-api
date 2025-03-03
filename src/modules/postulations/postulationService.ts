@@ -1,10 +1,10 @@
-import db from "../../db";
+import db from "../../db.js";
 import { Model } from "sequelize";
-import { PostulationsModelInterface } from "../../models/modelTypes";
-import { ReqPostBody } from "./interface";
+import { PostulationsModelInterface } from "../../models/modelTypes.js";
+import { ReqPostBody } from "./interface.js";
 const { Postulations, User } = db.models;
 
-export const postPostulationService= async (body: ReqPostBody) => {
+export const postPostulationService = async (body: ReqPostBody) => {
   const {
     date,
     position,
@@ -41,7 +41,10 @@ export const postPostulationService= async (body: ReqPostBody) => {
   }
 };
 
-export const getAllPostulationsService = async (userId: string, filters: any) => {
+export const getAllPostulationsService = async (
+  userId: string,
+  filters: any,
+) => {
   try {
     const whereClause: any = {};
     whereClause.userId = userId;
@@ -74,7 +77,10 @@ export const getPostulationByIdService = async (postulationId: string) => {
   }
 };
 
-export const updatePostulationService = async (postulationId: string, data: object) => {
+export const updatePostulationService = async (
+  postulationId: string,
+  data: object,
+) => {
   try {
     const postulation = await Postulations.findByPk(postulationId);
     if (!postulation) throw new Error("Postulation not found");

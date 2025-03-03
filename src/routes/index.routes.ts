@@ -3,16 +3,17 @@ import {
   loginController,
   userUpdateController,
   deleteUserController,
-} from "../modules/users/usersControllers";
+} from "../modules/users/usersControllers.js";
 import {
   postPostulationController,
   getAllPostulationsController,
   getPostulationByIdController,
   updatePostulationController,
   deletePostulationController,
-} from "../modules/postulations/postulationController";
+} from "../modules/postulations/postulationController.js";
 
-const route = require("express").Router();
+import express from "express";
+const route = express.Router();
 
 // { ------------- Postulations --------------- } \\
 
@@ -29,4 +30,4 @@ route.get("/login", loginController);
 route.patch("/user/:id", userUpdateController);
 route.delete("/usrer/:id", deleteUserController);
 
-export = route;
+export default route;

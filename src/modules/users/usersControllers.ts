@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { validationLogin, validationPostUser } from "./validation";
-import { ReqUserBody } from "./interface";
-import { createUser, login, userUpadeService } from "./usersServecie";
-import serverResponse from "../../utils/response";
+import { validationLogin, validationPostUser } from "./validation.js";
+import { ReqUserBody } from "./interface.js";
+import { createUser, login, userUpadeService } from "./usersServecie.js";
+import serverResponse from "../../utils/response.js";
 
 export const createUserController = async (req: Request, res: Response) => {
   const { name, lastName, userName, email, password }: ReqUserBody = req.body;
