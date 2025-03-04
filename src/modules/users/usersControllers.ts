@@ -12,7 +12,13 @@ export const createUserController = async (req: Request, res: Response) => {
   try {
     if (errors) return res.status(400).json(errors);
 
-    const data = await createUser(name, lastName, userName, email, password);
+    const data = await createUser(
+      name.trim(),
+      lastName.trim(),
+      userName.trim(),
+      email.trim().toLowerCase(),
+      password.trim(),
+    );
 
     const response = {
       result: "Ok",
