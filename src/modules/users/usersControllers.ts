@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { validationLogin, validationPostUser } from "./validation.js";
 import { ReqUserBody } from "./interface.js";
+import { validationPostUser } from "./validation.js";
 import { createUser, login, userUpadeService } from "./usersServecie.js";
 import serverResponse from "../../utils/response.js";
 
@@ -10,7 +10,7 @@ export const createUserController = async (req: Request, res: Response) => {
   const errors = validationPostUser(name, lastName, userName, email, password);
 
   try {
-    if (errors) return res.status(400).json(errors);
+    if (errors?.message) return res.status(400).json(errors);
 
     const data = await createUser(
       name.trim(),
@@ -36,26 +36,28 @@ export const createUserController = async (req: Request, res: Response) => {
 };
 
 export const loginController = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const errors = validationLogin(email, password);
+  const { email, password } = req.query;
 
-  if (errors) res.status(400).json(errors);
+  if (!email || !password) {
+    return res.status(400).json({
+      result: "Error",
+      message: "email y password son requeridos",
+    });
+  }
 
   try {
-    const data = await login(email, password);
+    const data = await login(email.toString(), password.toString());
 
-    const response = {
-      result: "Ok",
-      data,
-    };
+    if (!data) {
+      return res
+        .status(404)
+        .json({ result: "Error", message: "Usuario no encontrado" });
+    }
 
-    res.status(200).json(response);
-  } catch (error) {
-    const response = {
-      result: "Error",
-      error,
-    };
-    res.status(500).json(response);
+    res.status(200).json({ result: "Ok", data });
+  } catch (error: any) {
+    console.error("Error en el login:", error);
+    res.status(500).json({ result: "Error", message: error.message });
   }
 };
 
@@ -64,10 +66,15 @@ export const userUpdateController = async (req: Request, res: Response) => {
     const { data, userId } = req.body;
     const user = await userUpadeService(userId, data);
     return res.status(200).json(serverResponse("Ok", { user }));
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ result: "Error", error });
+  }
 };
 
 export const deleteUserController = async (req: Request, res: Response) => {
   try {
-  } catch (error) {}
+    // Código pendiente
+  } catch (error) {
+    return res.status(500).json({ result: "Error", error });
+  }
 };
