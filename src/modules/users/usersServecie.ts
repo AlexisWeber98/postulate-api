@@ -13,9 +13,9 @@ export const createUser = async (
   try {
     const data = await User.create({
       name,
-      lastName,
-      userName,
-      email,
+      lastName: lastName.trim(),
+      userName: userName.trim(),
+      email: email.trim().toLowerCase(),
       password,
     });
 
