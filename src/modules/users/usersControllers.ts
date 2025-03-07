@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ReqUserBody } from "./interface.js";
 import { validationPostUser } from "./validation.js";
-import { createUser, login, userUpadeService } from "./usersServecie.js";
+import { createUser, login, userUpadeService } from "./usersService.js";
 import serverResponse from "../../utils/response.js";
 
 export const createUserController = async (req: Request, res: Response) => {
