@@ -3,8 +3,8 @@ export interface PostulationsModelInterface {
   userId: String;
   position: String;
   company: String;
-  date: String;
-  through: String;
+  applicationDate: String;
+  link: String;
   status: String;
   description: String;
   sendCv: String;
@@ -20,8 +20,3 @@ export interface UserModelInterface {
   email: String;
   password: String;
 }
-
-
-
-
-
