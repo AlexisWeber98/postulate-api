@@ -14,19 +14,17 @@ export const postPostulationController = async (
   req: Request,
   res: Response,
 ) => {
-  const { date, position, company, trough, userId }: ReqPostBody = req.body;
-
-  const errors = validationPostPostulation(
-    date,
-    position,
-    company,
-    trough,
-    userId,
-  );
+  const { applicationDate, position, company, userId }: ReqPostBody = req.body;
+  //const errors = validationPostPostulation(
+  // applicationDate,
+  //position,
+  //company,
+  //userId,
+  //);
 
   try {
-    if (errors)
-      return res.status(400).json(serverResponse("ValidationError", errors));
+    //if (errors)
+    // return res.status(400).json(serverResponse("ValidationError", errors));
 
     const postulation = await postPostulationService(req.body);
 
@@ -41,8 +39,15 @@ export const getAllPostulationsController = async (
   res: Response,
 ) => {
   const { id: userId } = req.params;
-  const { date, position, company, trough, status, sendCv, sendEmail } =
-    req.query;
+  const {
+    applicationDate,
+    position,
+    company,
+    link,
+    status,
+    sendCv,
+    sendEmail,
+  } = req.query;
 
   try {
     if (!userId)
@@ -52,10 +57,10 @@ export const getAllPostulationsController = async (
 
     const filters = Object.fromEntries(
       Object.entries({
-        date,
+        applicationDate,
         position,
         company,
-        trough,
+        link,
         status,
         sendCv,
         sendEmail,

@@ -1,13 +1,13 @@
-
 export interface ReqPostBody {
-  date: string;
+  applicationDate: string;
   position: string;
   company: string;
-  trough: string;
+  link: string;
   status: string;
   userId: string;
-  description?:string;
-  sendEmail?:boolean;
-  sendCv:boolean;
+  description?: string;
+  sendEmail?: boolean;
+  sendCv: boolean;
   recruiterContact: string;
 }
+

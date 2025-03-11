@@ -6,10 +6,10 @@ const { Postulations, User } = db.models;
 
 export const postPostulationService = async (body: ReqPostBody) => {
   const {
-    date,
+    applicationDate,
     position,
     company,
-    trough,
+    link,
     userId,
     status,
     description,
@@ -20,13 +20,14 @@ export const postPostulationService = async (body: ReqPostBody) => {
 
   try {
     const findUserId = await User.findByPk(userId);
+    console.log("findUserId", findUserId);
     if (!findUserId) throw new Error("user not found");
 
     const data = await Postulations.create({
-      date,
+      applicationDate,
       position,
       company,
-      trough,
+      link,
       userId,
       status,
       description,
@@ -48,10 +49,11 @@ export const getAllPostulationsService = async (
   try {
     const whereClause: any = {};
     whereClause.userId = userId;
-    if (filters.date) whereClause.date = filters.date;
+    if (filters.applicationDate)
+      whereClause.applicationDate = filters.applicationDate;
     if (filters.position) whereClause.position = filters.position;
     if (filters.company) whereClause.company = filters.company;
-    if (filters.trough) whereClause.trough = filters.trough;
+    if (filters.link) whereClause.link = filters.link;
     if (filters.status) whereClause.status = filters.status;
     if (filters.description) whereClause.description = filters.description;
     if (filters.sendCv !== undefined)
@@ -61,7 +63,8 @@ export const getAllPostulationsService = async (
     console.log("Where Clause:", whereClause);
     const data = await Postulations.findAll({ where: whereClause });
 
-    return data ? data : "withouth data";
+    if (!data || data.length === 0) throw new Error("No postulations yet");
+    return data;
   } catch (error) {
     throw error;
   }
@@ -71,7 +74,9 @@ export const getPostulationByIdService = async (postulationId: string) => {
   try {
     const data = await Postulations.findByPk(postulationId);
 
-    return data ? data : "Postulation not Found";
+    if (!data) throw new Error("Postulation not Found");
+
+    return data;
   } catch (error) {
     throw error;
   }

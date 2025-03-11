@@ -16,7 +16,7 @@ export function definePostulationsModel(sequelize: Sequelize) {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    date: {
+    applicationDate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
@@ -28,7 +28,7 @@ export function definePostulationsModel(sequelize: Sequelize) {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    trough: {
+    link: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
