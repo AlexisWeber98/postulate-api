@@ -15,16 +15,16 @@ export const postPostulationController = async (
   res: Response,
 ) => {
   const { applicationDate, position, company, userId }: ReqPostBody = req.body;
-  //const errors = validationPostPostulation(
-  // applicationDate,
-  //position,
-  //company,
-  //userId,
-  //);
+  const errors = validationPostPostulation(
+    applicationDate,
+    position,
+    company,
+    userId,
+  );
 
   try {
-    //if (errors)
-    // return res.status(400).json(serverResponse("ValidationError", errors));
+    if (errors)
+      return res.status(400).json(serverResponse("ValidationError", errors));
 
     const postulation = await postPostulationService(req.body);
 
