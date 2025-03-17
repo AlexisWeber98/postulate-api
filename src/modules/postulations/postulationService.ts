@@ -35,6 +35,9 @@ export const postPostulationService = async (body: ReqPostBody) => {
       sendEmail,
       recruiterContact,
     });
+    console.log(" { ----------- BODY: ------------} ", body);
+
+    console.log(" { ----------- DATA: ------------} ", data);
 
     return data ? data : "withouth data";
   } catch (error) {
