@@ -9,51 +9,42 @@ import {
   deletePostulationService,
 } from "./postulationService.js";
 import serverResponse from "../../utils/response.js";
+import { catchAsync } from "../../utils/catchAsync.js";
+import { Logger } from "../../utils/logger.js";
+import { ValidationError } from "../../utils/errors.js";
 
-export const postPostulationController = async (
-  req: Request,
-  res: Response,
-) => {
-  const { applicationDate, position, company, userId }: ReqPostBody = req.body;
-  const errors = validationPostPostulation(
-    applicationDate,
-    position,
-    company,
-    userId,
-  );
+export const postPostulationController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { applicationDate, position, company, userId }: ReqPostBody =
+      req.body;
+    const errors = validationPostPostulation(
+      applicationDate,
+      position,
+      company,
+      userId,
+    );
 
-  try {
-    if (errors)
-      return res.status(400).json(serverResponse("ValidationError", errors));
+    if (errors) throw new ValidationError(errors.message || "validation error");
 
     const postulation = await postPostulationService(req.body);
-
     return res.status(200).json(serverResponse("Ok", { postulation }));
-  } catch (error: any) {
-    return res.status(500).json(serverResponse("Error", error.message));
-  }
-};
+  },
+);
 
-export const getAllPostulationsController = async (
-  req: Request,
-  res: Response,
-) => {
-  const { id: userId } = req.params;
-  const {
-    applicationDate,
-    position,
-    company,
-    link,
-    status,
-    sendCv,
-    sendEmail,
-  } = req.query;
+export const getAllPostulationsController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id: userId } = req.params;
+    const {
+      applicationDate,
+      position,
+      company,
+      link,
+      status,
+      sendCv,
+      sendEmail,
+    } = req.query;
 
-  try {
-    if (!userId)
-      return res
-        .status(400)
-        .json(serverResponse("Error", { message: "userId not found" }));
+    if (!userId) throw new ValidationError("userId not found");
 
     const filters = Object.fromEntries(
       Object.entries({
@@ -68,55 +59,40 @@ export const getAllPostulationsController = async (
     );
 
     const postulations = await getAllPostulationsService(userId, filters);
-
     return res.status(200).json(serverResponse("Ok", { postulations }));
-  } catch (error: any) {
-    console.error("Error in getAllPostulationsController:", error);
+  },
+);
 
-    return res.status(500).json(serverResponse("Error", error.message));
-  }
-};
+export const getPostulationByIdController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id: postulationId } = req.params;
 
-export const getPostulationByIdController = async (
-  req: Request,
-  res: Response,
-) => {
-  const { id: postulationId } = req.params;
+    if (!postulationId) throw new ValidationError("postulationId not found");
 
-  try {
     const postulation = await getPostulationByIdService(postulationId);
-
     return res.status(200).json(serverResponse("Ok", { postulation }));
-  } catch (error: any) {
-    return res.status(500).json(serverResponse("Error", error.message));
-  }
-};
+  },
+);
 
-export const updatePostulationController = async (
-  req: Request,
-  res: Response,
-) => {
-  const { data, postulationId } = req.body;
+export const updatePostulationController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { data, postulationId } = req.body;
 
-  try {
+    if (!data || !postulationId)
+      throw new ValidationError("data or postulationId not found");
+
     const postulation = await updatePostulationService(postulationId, data);
-
     return res.status(200).json(serverResponse("Ok", { postulation }));
-  } catch (error: any) {
-    return res.status(500).json(serverResponse("Error", error.message));
-  }
-};
+  },
+);
 
-export const deletePostulationController = async (
-  req: Request,
-  res: Response,
-) => {
-  const { id } = req.body;
-  try {
+export const deletePostulationController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.body;
+
+    if (!id) throw new ValidationError("id not found");
+
     const postulation = await deletePostulationService(id);
-
     return res.status(200).json(serverResponse("Ok", { postulation }));
-  } catch (error: any) {
-    return res.status(500).json(serverResponse("Error", error.message));
-  }
-};
+  },
+);
