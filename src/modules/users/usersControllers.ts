@@ -3,14 +3,27 @@ import { ReqUserBody } from "./interface.js";
 import { validationPostUser } from "./validation.js";
 import { createUser, login, userUpadeService } from "./usersService.js";
 import serverResponse from "../../utils/response.js";
+import {
+  ValidationError,
+  DatabaseError,
+  AuthenticationError,
+} from "../../utils/errors.js";
+import { Logger } from "../../utils/logger.js";
+import { catchAsync } from "../../utils/catchAsync.js";
 
-export const createUserController = async (req: Request, res: Response) => {
-  const { name, lastName, userName, email, password }: ReqUserBody = req.body;
+export const createUserController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { name, lastName, userName, email, password }: ReqUserBody = req.body;
 
-  const errors = validationPostUser(name, lastName, userName, email, password);
+    const errors = validationPostUser(
+      name,
+      lastName,
+      userName,
+      email,
+      password,
+    );
 
-  try {
-    if (errors?.message) return res.status(400).json(errors);
+    if (errors?.message) throw new ValidationError(errors.message);
 
     const data = await createUser(
       name.trim(),
@@ -20,61 +33,42 @@ export const createUserController = async (req: Request, res: Response) => {
       password.trim(),
     );
 
-    const response = {
-      result: "Ok",
-      data,
-    };
+    res.status(201).json(serverResponse("Ok", data));
+  },
+);
 
-    res.status(200).json(response);
-  } catch (error) {
-    const response = {
-      result: "Error",
-      error,
-    };
-    res.status(500).json(response);
-  }
-};
+export const loginController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { email, password } = req.query;
 
-export const loginController = async (req: Request, res: Response) => {
-  const { email, password } = req.query;
+    if (!email || !password)
+      throw new ValidationError("Email or password not found");
 
-  if (!email || !password) {
-    return res.status(400).json({
-      result: "Error",
-      message: "email y password son requeridos",
-    });
-  }
-
-  try {
     const data = await login(email.toString(), password.toString());
 
-    if (!data) {
-      return res
-        .status(404)
-        .json({ result: "Error", message: "Usuario no encontrado" });
-    }
+    if (!data) throw new ValidationError("User not found");
 
-    res.status(200).json({ result: "Ok", data });
-  } catch (error: any) {
-    console.error("Error en el login:", error);
-    res.status(500).json({ result: "Error", message: error.message });
-  }
-};
+    res.status(200).json(serverResponse("Ok", data));
+  },
+);
 
-export const userUpdateController = async (req: Request, res: Response) => {
-  try {
+export const userUpdateController = catchAsync(
+  async (req: Request, res: Response) => {
     const { data, userId } = req.body;
-    const user = await userUpadeService(userId, data);
-    return res.status(200).json(serverResponse("Ok", { user }));
-  } catch (error) {
-    return res.status(500).json({ result: "Error", error });
-  }
-};
+    if (!data || !userId) throw new ValidationError("data or userId not found");
 
-export const deleteUserController = async (req: Request, res: Response) => {
-  try {
+    const user = await userUpadeService(userId, data);
+
+    if (!user) {
+      Logger.error("Error updating user");
+    }
+    return res.status(200).json(serverResponse("Ok", { user }));
+  },
+);
+
+export const deleteUserController = catchAsync(
+  async (req: Request, res: Response) => {
     // Código pendiente
-  } catch (error) {
-    return res.status(500).json({ result: "Error", error });
-  }
-};
+    return;
+  },
+);
