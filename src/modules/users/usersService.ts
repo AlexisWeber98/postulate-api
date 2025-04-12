@@ -49,6 +49,7 @@ export const login = async (email: string, password: string) => {
       throw new AuthenticationError("Password not match");
 
     Logger.info("User logged in", { userId: user.get("id") });
+
     return user;
   } catch (error) {
     if (error instanceof AuthenticationError) throw error;
@@ -57,9 +58,13 @@ export const login = async (email: string, password: string) => {
 export const userUpadeService = async (userId: string, data: object) => {
   try {
     const user = await User.findByPk(userId);
+
     if (!user) throw new AuthenticationError("User not found");
+
     Logger.info("User updated", { userId });
+
     await user.update(data);
+
     return user;
   } catch (error) {
     if (error instanceof AuthenticationError) throw error;

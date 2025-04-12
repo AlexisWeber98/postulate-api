@@ -39,7 +39,7 @@ export const createUserController = catchAsync(
 
 export const loginController = catchAsync(
   async (req: Request, res: Response) => {
-    const { email, password } = req.query;
+    const { email, password } = req.body;
 
     if (!email || !password)
       throw new ValidationError("Email or password not found");
