@@ -11,6 +11,9 @@ app.use(morgan("dev"));
 app.use(cors());
 
 app.use("/", route);
+app.use("/health", (req, res) =>
+  res.status(200).json({ status: "OK Polisha" }),
+);
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ error: error.message });
 });
