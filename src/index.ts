@@ -10,7 +10,7 @@ db.sequelize
     return db.sequelize.sync({ force: false });
   })
   .then(() => {
-    app.listen(parseInt(serverPort, 10), () => {
+    app.listen(parseInt(serverPort), "0.0.0.0", () => {
       console.log(
         `Servidor y base de datos sincronizados y escuchando en el puerto ${serverPort}`,
       );
