@@ -17,7 +17,24 @@ const userRouter = express.Router();
 
 /**
  * @swagger
- * /user:
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * /users:
  *   post:
  *     summary: Registrar un nuevo usuario
  *     tags: [Users]

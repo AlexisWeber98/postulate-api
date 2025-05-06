@@ -1,5 +1,6 @@
 import { app } from "./app.js";
 import db from "./db.js";
+import { setupSwagger } from "./config/swagger.js";
 
 const serverPort = process.env.SERVER_PORT || "6001";
 
@@ -10,6 +11,7 @@ db.sequelize
     return db.sequelize.sync({ force: false });
   })
   .then(() => {
+    setupSwagger(app);
     app.listen(parseInt(serverPort), "0.0.0.0", () => {
       console.log(
         `Servidor y base de datos sincronizados y escuchando en el puerto ${serverPort}`,
