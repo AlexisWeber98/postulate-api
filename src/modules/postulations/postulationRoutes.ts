@@ -18,6 +18,38 @@ const postulationRouter = express.Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Postulation:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         applicationDate:
+ *           type: string
+ *           format: date
+ *         position:
+ *           type: string
+ *         company:
+ *           type: string
+ *         link:
+ *           type: string
+ *         userId:
+ *           type: string
+ *         status:
+ *           type: string
+ *         description:
+ *           type: string
+ *         sendCv:
+ *           type: boolean
+ *         sendEmail:
+ *           type: boolean
+ *         recruiterContact:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * /postulation:
  *   post:
  *     summary: Crear una nueva postulación
