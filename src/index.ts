@@ -1,7 +1,7 @@
 import { app } from "./app.js";
 import db from "./db.js";
 
-const serverPort = process.env.SERVER_PORT || "3001";
+const serverPort = process.env.SERVER_PORT || "6001";
 
 db.sequelize
   .authenticate()
