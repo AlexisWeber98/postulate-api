@@ -1,8 +1,11 @@
 import { app } from "./app.js";
 import db from "./db.js";
 import { setupSwagger } from "./config/swagger.js";
-mport { config } from "dotenv";
-const serverPort = config.process.env.SERVER_PORT || "6001";
+import dotenv from "dotenv";
+
+const config = dotenv.config();
+
+const serverPort = process.env.SERVER_PORT || "6001";
 
 db.sequelize
   .authenticate()

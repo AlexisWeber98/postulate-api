@@ -1,9 +1,11 @@
 import { Sequelize } from "sequelize";
 import { defineUserModel } from "./models/UserModel.js";
 import { definePostulationsModel } from "./models/PostulationsModel.js";
-import { config } from "dotenv";
+import dotenv from "dotenv";
 
-const { DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER } = config.process.env;
+const config = dotenv.config();
+
+const { DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER } = process.env;
 
 const sequelize = new Sequelize({
   host: DB_HOST,
