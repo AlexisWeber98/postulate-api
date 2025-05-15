@@ -43,7 +43,7 @@ export const postulationRouter = express.Router();
 
 /**
  * @swagger
- * /postulation:
+ * /postulations:
  *   post:
  *     summary: Crear una nueva postulación
  *     tags: [Postulations]
@@ -92,7 +92,7 @@ postulationRouter.get("/user/:id", getAllPostulationsController);
 
 /**
  * @swagger
- * /postulation/{id}:
+ * /postulations/{id}:
  *   get:
  *     summary: Obtener una postulación por ID
  *     tags: [Postulations]
@@ -117,7 +117,7 @@ postulationRouter.get("/:id", getPostulationByIdController);
 
 /**
  * @swagger
- * /postulation/{id}:
+ * /postulations/{id}:
  *   patch:
  *     summary: Actualizar una postulación
  *     tags: [Postulations]
@@ -149,7 +149,7 @@ postulationRouter.patch("/:id", updatePostulationController);
 
 /**
  * @swagger
- * /postulation/{id}:
+ * /postulations/{id}:
  *   delete:
  *     summary: Eliminar una postulación
  *     tags: [Postulations]
