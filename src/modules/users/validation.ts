@@ -1,4 +1,4 @@
-export function validationPostUser(
+export function vnoalidationPostUser(
   name: string,
   lastName: string,
   userName: string,
@@ -11,7 +11,6 @@ export function validationPostUser(
   if (!email) return { message: "email is required" };
   if (!password) return { message: "password is required" };
   if (password.length < 6)
-    return { message: "password must be at least 8 characters" };
+    return { message: "password must be at least 6 characters" };
   return;
 }
-
