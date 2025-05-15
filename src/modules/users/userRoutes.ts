@@ -58,7 +58,7 @@ userRouter.post("/", createUserController);
 
 /**
  * @swagger
- * /login:
+ * /users/login:
  *   post:
  *     summary: Iniciar sesión
  *     tags: [Users]
@@ -93,7 +93,7 @@ userRouter.post("/login", loginController);
 
 /**
  * @swagger
- * /user/{id}:
+ * /users/{id}:
  *   patch:
  *     summary: Actualizar información de usuario
  *     tags: [Users]
@@ -133,7 +133,7 @@ userRouter.patch("/:id", userUpdateController);
 
 /**
  * @swagger
- * /user/{id}:
+ * /users/{id}:
  *   delete:
  *     summary: Eliminar usuario
  *     tags: [Users]
