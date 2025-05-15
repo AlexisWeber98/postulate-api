@@ -1,4 +1,4 @@
-export function vnoalidationPostUser(
+export function validationPostUser(
   name: string,
   lastName: string,
   userName: string,
