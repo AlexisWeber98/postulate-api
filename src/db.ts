@@ -1,19 +1,15 @@
 import { Sequelize } from "sequelize";
 import { defineUserModel } from "./models/UserModel.js";
 import { definePostulationsModel } from "./models/PostulationsModel.js";
-import dotenv from "dotenv";
-
-const config = dotenv.config();
-
-const { DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER } = process.env;
+import { dbName, dbHost, dbPassword, dbPort, dbUser } from "./config/config.js";
 
 const sequelize = new Sequelize({
-  host: DB_HOST,
+  host: dbHost,
   dialect: "postgres",
-  username: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-  port: parseInt(`${DB_PORT}`),
+  username: dbUser,
+  password: dbPassword,
+  database: dbName,
+  port: parseInt(`${dbPort}`),
 });
 
 const models = {
