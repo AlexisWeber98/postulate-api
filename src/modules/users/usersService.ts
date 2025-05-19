@@ -1,7 +1,7 @@
 import db from "../../db.js";
-import { Model } from "sequelize";
+import { Model, Op } from "sequelize";
 import { UserModelInterface } from "./interface.js";
-import { DatabaseError, AuthenticationError } from "../../utils/errors.js";
+import { DatabaseError, AuthenticationError, ConflictError } from "../../utils/errors.js";
 import { hashPassword, verifyPassword } from "../../utils/hashPassword.js";
 import { generateToken } from "../../utils/jwt.js";
 import { Logger } from "../../utils/logger.js";
@@ -16,6 +16,25 @@ export const createUser = async (
   password: string,
 ) => {
   try {
+    // Verificar si el usuario ya existe
+    const existingUser = await SequelizeUser.findOne({
+      where: {
+        [Op.or]: [
+          { email: email.trim().toLowerCase() },
+          { userName: userName.trim() }
+        ]
+      }
+    });
+
+    if (existingUser) {
+      if (existingUser.get('email') === email.trim().toLowerCase()) {
+        throw new ConflictError("El correo electrónico ya está registrado");
+      }
+      if (existingUser.get('userName') === userName.trim()) {
+        throw new ConflictError("El nombre de usuario ya está en uso");
+      }
+    }
+
     const passwordHashed = await hashPassword(password.trim());
 
     const data = await SequelizeUser.create({
@@ -30,6 +49,10 @@ export const createUser = async (
 
     return data;
   } catch (error) {
+    if (error instanceof ConflictError) {
+      throw error;
+    }
+    
     Logger.error("Error creating user", error as Error, {
       email,
       userName,
