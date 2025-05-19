@@ -3,5 +3,5 @@ node_modules/
 config.js
 *.log
 *build
-bun.lockb
+bun.lock
 dist/
