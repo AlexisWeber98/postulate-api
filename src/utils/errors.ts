@@ -3,12 +3,12 @@ import { Logger } from "./logger.js";
 export class CustomError extends Error {
   constructor(
     public message: string,
-    public statusCode: number,
+    public status: number,
     public code: string,
   ) {
     super(message);
     Logger.error(message, this, {
-      statusCode,
+      status,
       code,
       stack: this.stack,
     });
