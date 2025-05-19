@@ -12,16 +12,19 @@ import { postulationRouter } from "./modules/postulations/postulationRoutes.js";
 
 export const app = express();
 app.use(generalLimiter);
+
 setupSwagger(app);
+
+app.use("/health", (req, res) =>
+  res.status(200).json({ status: "OK Polisha" }),
+);
+
 app.use(validateApiKey);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
 app.use("/", route);
-app.use("/health", (req, res) =>
-  res.status(200).json({ status: "OK Polisha" }),
-);
 
 // { ----- Auth Routes (public) ----- } //
 app.use("/auth", authLimiter, authRouter);
