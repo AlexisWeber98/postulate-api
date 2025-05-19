@@ -1,7 +1,5 @@
 import express from "express";
 import {
-  createUserController,
-  loginController,
   userUpdateController,
   deleteUserController,
 } from "./usersControllers.js";
@@ -23,73 +21,18 @@ export const userRouter = express.Router();
  *           type: string
  *         email:
  *           type: string
- *         password:
- *           type: string
+ *   securitySchemes:
+ *     ApiKeyAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: x-api-key
+ *       description: API Key for authentication
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: JWT token for user authentication
  */
-
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Registrar un nuevo usuario
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *           example:
- *             name: "Juan"
- *             lastname: "Pérez"
- *             email: "juan.perez@example.com"
- *             password: "123456"
- *     responses:
- *       201:
- *         description: Usuario creado exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       400:
- *         description: Error en los datos enviados
- */
-userRouter.post("/", createUserController);
-
-/**
- * @swagger
- * /users/login:
- *   post:
- *     summary: Iniciar sesión
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *           example:
- *             email: "juan.perez@example.com"
- *             password: "123456"
- *     responses:
- *       200:
- *         description: Inicio de sesión exitoso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *       401:
- *         description: Credenciales inválidas
- */
-userRouter.post("/login", loginController);
 
 /**
  * @swagger
@@ -97,6 +40,9 @@ userRouter.post("/login", loginController);
  *   patch:
  *     summary: Actualizar información de usuario
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -117,15 +63,15 @@ userRouter.post("/login", loginController);
  *                 type: string
  *               email:
  *                 type: string
- *           example:
- *             name: "Juan"
- *             lastname: "Pérez"
- *             email: "juan.perez@example.com"
  *     responses:
  *       200:
  *         description: Usuario actualizado exitosamente
  *       400:
  *         description: Error en los datos enviados
+ *       401:
+ *         description: No autorizado - Token inválido o expirado
+ *       403:
+ *         description: No autorizado - API Key inválida
  *       404:
  *         description: Usuario no encontrado
  */
@@ -137,6 +83,9 @@ userRouter.patch("/:id", userUpdateController);
  *   delete:
  *     summary: Eliminar usuario
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -147,6 +96,10 @@ userRouter.patch("/:id", userUpdateController);
  *     responses:
  *       200:
  *         description: Usuario eliminado exitosamente
+ *       401:
+ *         description: No autorizado - Token inválido o expirado
+ *       403:
+ *         description: No autorizado - API Key inválida
  *       404:
  *         description: Usuario no encontrado
  */
