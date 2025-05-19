@@ -17,6 +17,8 @@ export const postPostulationController = catchAsync(
   async (req: Request, res: Response) => {
     const { applicationDate, position, company, userId }: ReqPostBody =
       req.body;
+
+    console.log("req.body", req.body);
     const errors = validationPostPostulation(
       applicationDate,
       position,
