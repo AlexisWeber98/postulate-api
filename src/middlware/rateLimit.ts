@@ -3,13 +3,13 @@ import rateLimit from "express-rate-limit";
 import { Logger } from "../utils/logger.js";
 
 export const generalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 6,
+  windowMs: 60 * 60 * 1000,
+  max: 200,
 });
 
 export const authLimiter = rateLimit({
-  windowMs: 59 * 60 * 1000,
-  max: 200,
+  windowMs: 15 * 60 * 1000,
+  max: 6,
   handler: (req: Request, res: Response) => {
     Logger.warn("Rate limit exceeded", {
       ip: req.ip,
