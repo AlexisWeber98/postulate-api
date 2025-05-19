@@ -11,6 +11,16 @@ import { authRouter } from "./modules/users/authRoutes.js";
 import { postulationRouter } from "./modules/postulations/postulationRoutes.js";
 
 export const app = express();
+
+// Configuración de CORS
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(generalLimiter);
 
 setupSwagger(app);
@@ -22,7 +32,6 @@ app.use("/health", (req, res) =>
 app.use(validateApiKey);
 app.use(express.json());
 app.use(morgan("dev"));
-//app.use(cors());
 
 app.use("/", route);
 
