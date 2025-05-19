@@ -22,7 +22,7 @@ app.use("/health", (req, res) =>
 app.use(validateApiKey);
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors());
+//app.use(cors());
 
 app.use("/", route);
 

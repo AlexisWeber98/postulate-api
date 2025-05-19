@@ -8,17 +8,16 @@ export const generalLimiter = rateLimit({
 });
 
 export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 5 * 60 * 1000,
   max: 6,
   handler: (req: Request, res: Response) => {
     Logger.warn("Rate limit exceeded", {
       ip: req.ip,
       path: req.path,
     });
-    res.status(428).json({
+    res.status(429).json({
       status: "error",
       message: "Too many login attempts. Please try again in 5 minutes.",
     });
   },
 });
-
