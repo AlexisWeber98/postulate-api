@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomError } from "../utils/errors.js";
+import { AuthenticationError, CustomError } from "../utils/errors.js";
 import { Logger } from "../utils/logger.js";
 
 export const errorHandler = (
@@ -14,8 +14,8 @@ export const errorHandler = (
     body: req.body,
   });
 
-  if (err instanceof CustomError) {
-    return res.status(err.statusCode).json({
+  if (err instanceof CustomError || err instanceof AuthenticationError) {
+    return res.status(err.status).json({
       status: "error",
       code: err.code,
       message: err.message,
