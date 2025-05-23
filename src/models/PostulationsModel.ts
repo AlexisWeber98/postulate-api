@@ -1,13 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 
-enum StatusPostulation {
-  Pending = "Pending Response",
-  FirstInterview = "First Interview",
-  SecondInterview = "Second Interview",
-  TechInterview = "Technical Interview",
-  Rejected = "Rejected",
-  Accepted = "Accepted",
-}
+
 
 export function definePostulationsModel(sequelize: Sequelize) {
   const Postulation = sequelize.define("Postulations", {
@@ -34,10 +27,7 @@ export function definePostulationsModel(sequelize: Sequelize) {
     },
     status: {
       type: DataTypes.STRING,
-      defaultValue: StatusPostulation.Pending,
-      validate: {
-        isIn: [Object.values(StatusPostulation)], //asegura que el valor del enum sea válido
-      },
+      allowNull:false
     },
     description: {
       type: DataTypes.TEXT,
