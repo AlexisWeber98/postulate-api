@@ -12,6 +12,7 @@ import serverResponse from "../../utils/response.js";
 import { catchAsync } from "../../utils/catchAsync.js";
 import { Logger } from "../../utils/logger.js";
 import { ValidationError } from "../../utils/errors.js";
+import { getPaginationParams } from "../../utils/pagination.js";
 
 export const postPostulationController = catchAsync(
   async (req: Request, res: Response) => {
@@ -44,6 +45,8 @@ export const getAllPostulationsController = catchAsync(
       status,
       sendCv,
       sendEmail,
+      page,
+      limit,
     } = req.query;
 
     if (!userId) throw new ValidationError("userId not found");
@@ -60,8 +63,10 @@ export const getAllPostulationsController = catchAsync(
       }).filter(([_, value]) => value !== undefined),
     );
 
-    const postulations = await getAllPostulationsService(userId, filters);
-    return res.status(200).json(serverResponse("Ok", { postulations }));
+    // Forzamos valores por defecto si getPaginationParams retorna undefined
+    const { page: pageNum = 1, limit: limitNum = 10 } = getPaginationParams({ page, limit }) || {};
+    const result = await getAllPostulationsService(userId, filters, { page: Number(pageNum), limit: Number(limitNum) });
+    return res.status(200).json(serverResponse("Ok", result));
   },
 );
 

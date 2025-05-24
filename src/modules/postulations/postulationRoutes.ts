@@ -67,7 +67,7 @@ postulationRouter.post("/", postPostulationController);
  * @swagger
  * /postulations/user/{id}:
  *   get:
- *     summary: Obtener todas las postulaciones de un usuario
+ *     summary: Obtener todas las postulaciones de un usuario (paginado)
  *     tags: [Postulations]
  *     parameters:
  *       - in: path
@@ -76,15 +76,78 @@ postulationRouter.post("/", postPostulationController);
  *           type: string
  *         required: true
  *         description: ID del usuario
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Número de página para la paginación
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Cantidad de resultados por página
+ *       - in: query
+ *         name: applicationDate
+ *         schema:
+ *           type: string
+ *         description: Filtrar por fecha de aplicación
+ *       - in: query
+ *         name: position
+ *         schema:
+ *           type: string
+ *         description: Filtrar por posición
+ *       - in: query
+ *         name: company
+ *         schema:
+ *           type: string
+ *         description: Filtrar por empresa
+ *       - in: query
+ *         name: link
+ *         schema:
+ *           type: string
+ *         description: Filtrar por link
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *         description: Filtrar por estado
+ *       - in: query
+ *         name: sendCv
+ *         schema:
+ *           type: boolean
+ *         description: Filtrar por envío de CV
+ *       - in: query
+ *         name: sendEmail
+ *         schema:
+ *           type: boolean
+ *         description: Filtrar por envío de email
  *     responses:
  *       200:
- *         description: Lista de postulaciones del usuario
+ *         description: Lista paginada de postulaciones del usuario
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Postulation'
+ *               type: object
+ *               properties:
+ *                 statusResponse:
+ *                   type: string
+ *                 result:
+ *                   type: object
+ *                   properties:
+ *                     data:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Postulation'
+ *                     total:
+ *                       type: integer
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     totalPages:
+ *                       type: integer
  *       404:
  *         description: Usuario no encontrado
  */

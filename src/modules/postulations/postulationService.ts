@@ -7,6 +7,7 @@ import {
   DatabaseError,
   NotFoundError,
 } from "../../utils/errors.js";
+import { getPaginationParams, buildPaginationResult } from "../../utils/pagination.js";
 
 export const postPostulationService = async (body: ReqPostBody) => {
   const {
@@ -57,6 +58,7 @@ export const postPostulationService = async (body: ReqPostBody) => {
 export const getAllPostulationsService = async (
   userId: string,
   filters: any,
+  pagination?: { page: number; limit: number }
 ) => {
   try {
     const whereClause: any = { userId };
@@ -83,14 +85,23 @@ export const getAllPostulationsService = async (
       whereClause.sendEmail = filters.sendEmail === "true";
     }
 
-    const data = await Postulations.findAll({ where: whereClause });
+    // Paginación
+    const page = pagination?.page || 1;
+    const limit = pagination?.limit || 10;
+    const offset = (page - 1) * limit;
+
+    const { count: total, rows: data } = await Postulations.findAndCountAll({
+      where: whereClause,
+      offset,
+      limit,
+    });
 
     if (!data || data.length === 0) {
       Logger.info("No Postulatios found", { userId });
-      return [];
+      return buildPaginationResult([], 0, page, limit);
     }
 
-    return data;
+    return buildPaginationResult(data, total, page, limit);
   } catch (error) {
     Logger.error("Error getting postulations", error as Error, { userId });
     throw new DatabaseError("Error getting postulations");
