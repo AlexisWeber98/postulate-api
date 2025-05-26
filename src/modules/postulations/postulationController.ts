@@ -64,8 +64,12 @@ export const getAllPostulationsController = catchAsync(
     );
 
     // Forzamos valores por defecto si getPaginationParams retorna undefined
-    const { page: pageNum = 1, limit: limitNum = 10 } = getPaginationParams({ page, limit }) || {};
-    const result = await getAllPostulationsService(userId, filters, { page: Number(pageNum), limit: Number(limitNum) });
+    const { page: pageNum = 1, limit: limitNum = 10 } =
+      getPaginationParams({ page, limit }) || {};
+    const result = await getAllPostulationsService(userId, filters, {
+      page: Number(pageNum),
+      limit: Number(limitNum),
+    });
     return res.status(200).json(serverResponse("Ok", result));
   },
 );

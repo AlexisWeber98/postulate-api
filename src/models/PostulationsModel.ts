@@ -1,7 +1,5 @@
 import { DataTypes, Sequelize } from "sequelize";
 
-
-
 export function definePostulationsModel(sequelize: Sequelize) {
   const Postulation = sequelize.define("Postulations", {
     id: {
