@@ -19,9 +19,13 @@ const models = {
 
 models.User.hasMany(models.Postulations, {
   foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE"
 });
 models.Postulations.belongsTo(models.User, {
   foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE"
 });
 
 export default { models, sequelize };
