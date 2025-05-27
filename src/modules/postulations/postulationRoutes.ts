@@ -352,4 +352,4 @@ postulationRouter.patch("/:id", updatePostulationController);
  *       404:
  *         description: Postulación no encontrada
  */
-postulationRouter.delete("/:id", deletePostulationController);
+postulationRouter.delete("/", deletePostulationController);
