@@ -15,30 +15,49 @@ export const postulationRouter = express.Router();
  *   schemas:
  *     Postulation:
  *       type: object
+ *       required:
+ *         - applicationDate
+ *         - company
+ *         - position
+ *         - status
+ *         - userId
  *       properties:
  *         id:
  *           type: string
+ *           format: uuid
+ *           description: Identificador único de la postulación
  *         applicationDate:
  *           type: string
  *           format: date
- *         position:
- *           type: string
+ *           description: Fecha de aplicación
  *         company:
  *           type: string
+ *           description: Nombre de la empresa
+ *         position:
+ *           type: string
+ *           description: Posición o cargo al que se postula
  *         link:
  *           type: string
- *         userId:
- *           type: string
+ *           description: Enlace a la oferta de trabajo
  *         status:
  *           type: string
+ *           description: Estado de la postulación
  *         description:
  *           type: string
- *         sendCv:
- *           type: boolean
+ *           description: Descripción adicional de la postulación
  *         sendEmail:
  *           type: boolean
+ *           description: Indica si se envió email
+ *         sendCv:
+ *           type: boolean
+ *           description: Indica si se envió CV
  *         recruiterContact:
  *           type: string
+ *           description: Información de contacto del reclutador
+ *         userId:
+ *           type: string
+ *           format: uuid
+ *           description: ID del usuario que realizó la postulación
  */
 
 /**
@@ -47,19 +66,61 @@ export const postulationRouter = express.Router();
  *   post:
  *     summary: Crear una nueva postulación
  *     tags: [Postulations]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Postulation'
+ *             type: object
+ *             required:
+ *               - applicationDate
+ *               - company
+ *               - position
+ *               - status
+ *               - userId
+ *             properties:
+ *               applicationDate:
+ *                 type: string
+ *                 format: date
+ *               company:
+ *                 type: string
+ *               position:
+ *                 type: string
+ *               link:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               sendEmail:
+ *                 type: boolean
+ *               sendCv:
+ *                 type: boolean
+ *               recruiterContact:
+ *                 type: string
+ *               userId:
+ *                 type: string
+ *                 format: uuid
  *     responses:
  *       201:
  *         description: Postulación creada exitosamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Postulation'
+ *               type: object
+ *               properties:
+ *                 statusResponse:
+ *                   type: string
+ *                 result:
+ *                   $ref: '#/components/schemas/Postulation'
+ *       400:
+ *         description: Error en los datos enviados
+ *       401:
+ *         description: No autorizado
+ *       404:
+ *         description: Usuario no encontrado
  */
 postulationRouter.post("/", postPostulationController);
 
@@ -69,11 +130,14 @@ postulationRouter.post("/", postPostulationController);
  *   get:
  *     summary: Obtener todas las postulaciones de un usuario (paginado)
  *     tags: [Postulations]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
+ *           format: uuid
  *         required: true
  *         description: ID del usuario
  *       - in: query
@@ -92,6 +156,7 @@ postulationRouter.post("/", postPostulationController);
  *         name: applicationDate
  *         schema:
  *           type: string
+ *           format: date
  *         description: Filtrar por fecha de aplicación
  *       - in: query
  *         name: position
@@ -103,11 +168,6 @@ postulationRouter.post("/", postPostulationController);
  *         schema:
  *           type: string
  *         description: Filtrar por empresa
- *       - in: query
- *         name: link
- *         schema:
- *           type: string
- *         description: Filtrar por link
  *       - in: query
  *         name: status
  *         schema:
@@ -148,6 +208,8 @@ postulationRouter.post("/", postPostulationController);
  *                       type: integer
  *                     totalPages:
  *                       type: integer
+ *       401:
+ *         description: No autorizado
  *       404:
  *         description: Usuario no encontrado
  */
@@ -159,11 +221,14 @@ postulationRouter.get("/user/:id", getAllPostulationsController);
  *   get:
  *     summary: Obtener una postulación por ID
  *     tags: [Postulations]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
+ *           format: uuid
  *         required: true
  *         description: ID de la postulación
  *     responses:
@@ -172,7 +237,14 @@ postulationRouter.get("/user/:id", getAllPostulationsController);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Postulation'
+ *               type: object
+ *               properties:
+ *                 statusResponse:
+ *                   type: string
+ *                 result:
+ *                   $ref: '#/components/schemas/Postulation'
+ *       401:
+ *         description: No autorizado
  *       404:
  *         description: Postulación no encontrada
  */
@@ -184,11 +256,14 @@ postulationRouter.get("/:id", getPostulationByIdController);
  *   patch:
  *     summary: Actualizar una postulación
  *     tags: [Postulations]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
+ *           format: uuid
  *         required: true
  *         description: ID de la postulación
  *     requestBody:
@@ -196,15 +271,46 @@ postulationRouter.get("/:id", getPostulationByIdController);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Postulation'
- *           example:
- *             status: "approved"
- *             description: "Actualización de estado"
+ *             type: object
+ *             properties:
+ *               data:
+ *                 type: object
+ *                 properties:
+ *                   applicationDate:
+ *                     type: string
+ *                     format: date
+ *                   company:
+ *                     type: string
+ *                   position:
+ *                     type: string
+ *                   link:
+ *                     type: string
+ *                   status:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   sendEmail:
+ *                     type: boolean
+ *                   sendCv:
+ *                     type: boolean
+ *                   recruiterContact:
+ *                     type: string
  *     responses:
  *       200:
  *         description: Postulación actualizada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusResponse:
+ *                   type: string
+ *                 result:
+ *                   $ref: '#/components/schemas/Postulation'
  *       400:
  *         description: Error en los datos enviados
+ *       401:
+ *         description: No autorizado
  *       404:
  *         description: Postulación no encontrada
  */
@@ -216,16 +322,33 @@ postulationRouter.patch("/:id", updatePostulationController);
  *   delete:
  *     summary: Eliminar una postulación
  *     tags: [Postulations]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
+ *           format: uuid
  *         required: true
  *         description: ID de la postulación
  *     responses:
  *       200:
  *         description: Postulación eliminada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusResponse:
+ *                   type: string
+ *                 result:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *       401:
+ *         description: No autorizado
  *       404:
  *         description: Postulación no encontrada
  */
