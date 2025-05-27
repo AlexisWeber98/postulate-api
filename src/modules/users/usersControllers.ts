@@ -13,7 +13,8 @@ import { catchAsync } from "../../utils/catchAsync.js";
 
 export const createUserController = catchAsync(
   async (req: Request, res: Response) => {
-    const { name, lastName, userName, email, password }: ReqUserBody = req.body;
+    const { name, lastName, userName, email, password, imageUrl }: ReqUserBody =
+      req.body;
 
     const errors = validationPostUser(
       name,
@@ -31,6 +32,7 @@ export const createUserController = catchAsync(
       userName.trim(),
       email.trim().toLowerCase(),
       password.trim(),
+      imageUrl.trim(),
     );
 
     res.status(201).json(serverResponse("Ok", data));

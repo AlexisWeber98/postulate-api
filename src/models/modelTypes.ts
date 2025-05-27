@@ -19,4 +19,5 @@ export interface UserModelInterface {
   lastName: String;
   email: String;
   password: String;
+  imageUrl: String;
 }

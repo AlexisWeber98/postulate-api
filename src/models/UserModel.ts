@@ -31,6 +31,10 @@ export function defineUserModel(sequelize: Sequelize) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    imageUrl: {
+      allowNull: true,
+      type: DataTypes.STRING,
+    },
   });
   return User;
 }

@@ -1,7 +1,11 @@
 import db from "../../db.js";
 import { Model, Op } from "sequelize";
 import { UserModelInterface } from "./interface.js";
-import { DatabaseError, AuthenticationError, ConflictError } from "../../utils/errors.js";
+import {
+  DatabaseError,
+  AuthenticationError,
+  ConflictError,
+} from "../../utils/errors.js";
 import { hashPassword, verifyPassword } from "../../utils/hashPassword.js";
 import { generateToken } from "../../utils/jwt.js";
 import { Logger } from "../../utils/logger.js";
@@ -14,6 +18,7 @@ export const createUser = async (
   userName: string,
   email: string,
   password: string,
+  imageUrl: string,
 ) => {
   try {
     // Verificar si el usuario ya existe
@@ -21,16 +26,16 @@ export const createUser = async (
       where: {
         [Op.or]: [
           { email: email.trim().toLowerCase() },
-          { userName: userName.trim() }
-        ]
-      }
+          { userName: userName.trim() },
+        ],
+      },
     });
 
     if (existingUser) {
-      if (existingUser.get('email') === email.trim().toLowerCase()) {
+      if (existingUser.get("email") === email.trim().toLowerCase()) {
         throw new ConflictError("El correo electrónico ya está registrado");
       }
-      if (existingUser.get('userName') === userName.trim()) {
+      if (existingUser.get("userName") === userName.trim()) {
         throw new ConflictError("El nombre de usuario ya está en uso");
       }
     }
@@ -38,11 +43,12 @@ export const createUser = async (
     const passwordHashed = await hashPassword(password.trim());
 
     const data = await SequelizeUser.create({
-      name,
+      name: name.trim(),
       lastName: lastName.trim(),
       userName: userName.trim(),
       email: email.trim().toLowerCase(),
-      password: passwordHashed,
+      password: passwordHashed.trim(),
+      imageUrl: imageUrl.trim(),
     });
 
     Logger.info("User created");
@@ -52,7 +58,7 @@ export const createUser = async (
     if (error instanceof ConflictError) {
       throw error;
     }
-    
+
     Logger.error("Error creating user", error as Error, {
       email,
       userName,

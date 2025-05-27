@@ -4,6 +4,7 @@ export interface ReqUserBody {
   userName: string;
   email: string;
   password: string;
+  imageUrl: string;
 }
 
 export interface UserModelInterface {
@@ -13,5 +14,5 @@ export interface UserModelInterface {
   userName: string;
   email: string;
   password: string;
+  imageUrl: string;
 }
-
