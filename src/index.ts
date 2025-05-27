@@ -7,7 +7,7 @@ db.sequelize
   .authenticate()
   .then(() => {
     console.log("Conexión establecida con éxito.");
-    return db.sequelize.sync({ force: false });
+    return db.sequelize.sync({ force: true });
   })
   .then(() => {
     setupSwagger(app);
