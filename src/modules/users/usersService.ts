@@ -1,6 +1,6 @@
 import db from "../../db.js";
 import { Model, Op } from "sequelize";
-import { UserModelInterface } from "./interface.js";
+import { UserModelInterface } from "../../models/modelTypes.js";
 import {
   DatabaseError,
   AuthenticationError,
@@ -18,7 +18,7 @@ export const createUser = async (
   userName: string,
   email: string,
   password: string,
-  imageUrl: string,
+  imageUrl?: string,
 ) => {
   try {
     // Verificar si el usuario ya existe
@@ -48,7 +48,7 @@ export const createUser = async (
       userName: userName.trim(),
       email: email.trim().toLowerCase(),
       password: passwordHashed.trim(),
-      imageUrl: imageUrl.trim(),
+      imageUrl: imageUrl?.trim(),
     });
 
     Logger.info("User created");

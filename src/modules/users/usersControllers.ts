@@ -32,7 +32,7 @@ export const createUserController = catchAsync(
       userName.trim(),
       email.trim().toLowerCase(),
       password.trim(),
-      imageUrl.trim(),
+      imageUrl ? imageUrl.trim() : "",
     );
 
     res.status(201).json(serverResponse("Ok", data));
