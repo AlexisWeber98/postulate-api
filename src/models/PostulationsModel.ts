@@ -25,7 +25,7 @@ export function definePostulationsModel(sequelize: Sequelize) {
     },
     status: {
       type: DataTypes.STRING,
-      allowNull:false
+      allowNull: false,
     },
     description: {
       type: DataTypes.TEXT,
