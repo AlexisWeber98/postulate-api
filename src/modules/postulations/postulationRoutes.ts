@@ -325,8 +325,6 @@ postulationRouter.patch("/:id", updatePostulationController);
  *     security:
  *       - BearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
  *         schema:
  *           type: string
  *           format: uuid

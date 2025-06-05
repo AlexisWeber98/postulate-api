@@ -1,15 +1,17 @@
 import { Sequelize } from "sequelize";
 import { defineUserModel } from "./models/UserModel.js";
 import { definePostulationsModel } from "./models/PostulationsModel.js";
-import { dbName, dbHost, dbPassword, dbPort, dbUser } from "./config/config.js";
+import { databaseUrl } from "./config/config.js";
 
-const sequelize = new Sequelize({
-  host: dbHost,
+if (!databaseUrl) {
+  throw new Error("Database URL is not defined. Check your configuration.");
+}
+
+const sequelize = new Sequelize(databaseUrl, {
   dialect: "postgres",
-  username: dbUser,
-  password: dbPassword,
-  database: dbName,
-  port: parseInt(`${dbPort}`),
+  define: {
+    timestamps: true,
+  },
 });
 
 const models = {
@@ -20,12 +22,12 @@ const models = {
 models.User.hasMany(models.Postulations, {
   foreignKey: "userId",
   onDelete: "CASCADE",
-  onUpdate: "CASCADE"
+  onUpdate: "CASCADE",
 });
 models.Postulations.belongsTo(models.User, {
   foreignKey: "userId",
   onDelete: "CASCADE",
-  onUpdate: "CASCADE"
+  onUpdate: "CASCADE",
 });
 
 export default { models, sequelize };
