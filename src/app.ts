@@ -32,7 +32,6 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
 app.use(generalLimiter);
 
 setupSwagger(app);
@@ -40,7 +39,7 @@ setupSwagger(app);
 app.use("/health", (_req, res) =>
   res.status(200).json({ status: "OK Polisha" }),
 );
-
+app.use(cors(corsOptions));
 app.use(validateApiKey);
 app.use(express.json());
 app.use(morgan("dev"));
