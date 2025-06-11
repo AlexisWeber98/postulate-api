@@ -9,6 +9,7 @@ import { generalLimiter, authLimiter } from "./middlware/rateLimit.js";
 import { userRouter } from "./modules/users/userRoutes.js";
 import { authRouter } from "./modules/users/authRoutes.js";
 import { postulationRouter } from "./modules/postulations/postulationRoutes.js";
+
 import {
   frontendUrl,
   frontendUrlWww,
