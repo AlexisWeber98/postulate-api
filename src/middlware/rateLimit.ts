@@ -4,7 +4,7 @@ import { Logger } from "../utils/logger.js";
 
 export const generalLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 200,
+  max: 500,
 });
 
 export const authLimiter = rateLimit({
