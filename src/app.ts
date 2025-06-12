@@ -30,19 +30,28 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
   credentials: true,
+  optionsSuccessStatus: 200
 };
 
-app.use(generalLimiter);
+// Log para depuración de CORS
+app.use((req, res, next) => {
+  console.log('CORS Debug - Origin:', req.headers.origin);
+  console.log('CORS Debug - Method:', req.method);
+  next();
+});
 
-setupSwagger(app);
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(morgan("dev"));
 
+// Rutas públicas
 app.use("/health", (_req, res) =>
   res.status(200).json({ status: "OK Polisha" }),
 );
-app.use(cors(corsOptions));
+setupSwagger(app);
+
+// Middleware de seguridad
 app.use(validateApiKey);
-app.use(express.json());
-app.use(morgan("dev"));
 
 app.use("/", route);
 
