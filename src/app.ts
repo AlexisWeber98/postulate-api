@@ -22,21 +22,25 @@ export const app = express();
 // Configuración de CORS
 const corsOptions = {
   origin: [
-    `${frontendUrlDevelop1}`,
-    `${frontendUrlDevelop2}`,
-    `${frontendUrl}`,
-    `${frontendUrlWww}`,
-  ],
+    frontendUrl,
+    frontendUrlWww,
+    frontendUrlDevelop1,
+    frontendUrlDevelop2,
+  
+  ].filter(Boolean) as string[],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
+  exposedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  preflightContinue: false
 };
 
 // Log para depuración de CORS
 app.use((req, res, next) => {
   console.log('CORS Debug - Origin:', req.headers.origin);
   console.log('CORS Debug - Method:', req.method);
+  console.log('CORS Debug - Headers:', req.headers);
   next();
 });
 
