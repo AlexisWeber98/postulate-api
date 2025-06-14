@@ -15,6 +15,10 @@ const swaggerOptions = {
         url: "http://localhost:6001",
         description: "Development local server",
       },
+      {
+        url: "https://api-postulate.alexisweber.com",
+        description: "Production server",
+      }
     ],
   },
   apis: ["./src/modules/**/*.ts"],

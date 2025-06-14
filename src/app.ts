@@ -19,14 +19,12 @@ import {
 
 export const app = express();
 
-// Configuración de CORS
 const corsOptions = {
   origin: [
     frontendUrl,
     frontendUrlWww,
     frontendUrlDevelop1,
-    frontendUrlDevelop2,
-  
+    frontendUrlDevelop2
   ].filter(Boolean) as string[],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
@@ -36,7 +34,11 @@ const corsOptions = {
   preflightContinue: false
 };
 
-// Log para depuración de CORS
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(morgan("dev"));
+
 app.use((req, res, next) => {
   console.log('CORS Debug - Origin:', req.headers.origin);
   console.log('CORS Debug - Method:', req.method);
@@ -44,28 +46,24 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(morgan("dev"));
+setupSwagger(app);
 
-// Rutas públicas
 app.use("/health", (_req, res) =>
   res.status(200).json({ status: "OK Polisha" }),
 );
-setupSwagger(app);
 
-// Middleware de seguridad
-app.use(validateApiKey);
+app.use("/auth", authLimiter, authRouter);
 
 app.use("/", route);
 
-// { ----- Auth Routes (public) ----- } //
-app.use("/auth", authLimiter, authRouter);
-
-// { ----- Protected routes (token required) ----- } //
-app.use("/users", authenticate, userRouter);
-app.use("/postulations", authenticate, postulationRouter);
+app.use("/users", validateApiKey, authenticate, userRouter);
+app.use("/postulations", validateApiKey, authenticate, postulationRouter);
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: error.message });
+});
+
+const PORT = Number(process.env.SERVER_PORT) || 6001;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port ${PORT}`);
 });
