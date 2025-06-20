@@ -24,25 +24,24 @@ const corsOptions = {
     frontendUrl,
     frontendUrlWww,
     frontendUrlDevelop1,
-    frontendUrlDevelop2
+    frontendUrlDevelop2,
   ].filter(Boolean) as string[],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
   exposedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
   optionsSuccessStatus: 200,
-  preflightContinue: false
+  preflightContinue: false,
 };
-
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use((req, res, next) => {
-  console.log('CORS Debug - Origin:', req.headers.origin);
-  console.log('CORS Debug - Method:', req.method);
-  console.log('CORS Debug - Headers:', req.headers);
+app.use((req, _res, next) => {
+  console.log("CORS Debug - Origin:", req.headers.origin);
+  console.log("CORS Debug - Method:", req.method);
+  console.log("CORS Debug - Headers:", req.headers);
   next();
 });
 
@@ -54,16 +53,11 @@ app.use("/health", (_req, res) =>
 
 app.use("/auth", authLimiter, authRouter);
 
-app.use("/", route);
+app.use("/", generalLimiter, route);
 
 app.use("/users", validateApiKey, authenticate, userRouter);
 app.use("/postulations", validateApiKey, authenticate, postulationRouter);
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: error.message });
-});
-
-const PORT = Number(process.env.SERVER_PORT) || 6001;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
 });

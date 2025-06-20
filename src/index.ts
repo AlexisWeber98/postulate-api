@@ -3,6 +3,9 @@ import db from "./db.js";
 import { setupSwagger } from "./config/swagger.js";
 import { serverPort } from "./config/config.js";
 
+const port =
+  typeof serverPort === "string" ? parseInt(serverPort, 10) : serverPort;
+
 db.sequelize
   .authenticate()
   .then(() => {
@@ -11,7 +14,7 @@ db.sequelize
   })
   .then(() => {
     setupSwagger(app);
-    app.listen(parseInt(`${serverPort}`), "0.0.0.0", () => {
+    app.listen(port, "0.0.0.0", () => {
       console.log(
         `Servidor y base de datos sincronizados y escuchando en el puerto ${serverPort}`,
       );

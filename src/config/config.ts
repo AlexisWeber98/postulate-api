@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 const config = dotenv.config();
 
-export const serverPort = process.env.SERVER_PORT || 3000;
+export const serverPort = process.env.SERVER_PORT || 6001;
 export const dbName = process.env.DB_NAME;
 export const dbHost = process.env.DB_HOST;
 export const dbPassword = process.env.DB_PASSWORD;
