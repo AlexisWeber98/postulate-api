@@ -5,3 +5,8 @@ config.js
 *build
 bun.lock
 dist/
+
+# Fly.io production files
+fly.toml
+fly.postgres.toml
+postulate-latest.dump
