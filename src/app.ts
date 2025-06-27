@@ -38,13 +38,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use((req, _res, next) => {
-  console.log("CORS Debug - Origin:", req.headers.origin);
-  console.log("CORS Debug - Method:", req.method);
-  console.log("CORS Debug - Headers:", req.headers);
-  next();
-});
-
 setupSwagger(app);
 
 app.use("/health", (_req, res) =>
