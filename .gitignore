@@ -10,3 +10,7 @@ dist/
 fly.toml
 fly.postgres.toml
 postulate-latest.dump
+
+# Docker production files
+Dockerfile
+.dockerignore
