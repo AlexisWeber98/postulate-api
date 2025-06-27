@@ -20,7 +20,7 @@ export const createUserController = catchAsync(
       name,
       lastName,
       userName,
-      email,
+      email.toLowerCase(),
       password,
     );
 
@@ -31,7 +31,6 @@ export const createUserController = catchAsync(
       lastName.trim(),
       userName.trim(),
       email.trim().toLowerCase(),
-      password.trim(),
       imageUrl ? imageUrl.trim() : "",
     );
 

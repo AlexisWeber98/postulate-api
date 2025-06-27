@@ -73,7 +73,7 @@ export const login = async (email: string, password: string) => {
     where: { email },
   })) as Model<UserModelInterface>;
   if (!user) {
-    throw new AuthenticationError("Invalid credentials");
+    throw new AuthenticationError("user not found");
   }
 
   const storedPassword = user.get("password") as string;
