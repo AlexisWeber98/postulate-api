@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import { defineUserModel } from "./models/UserModel.js";
 import { definePostulationsModel } from "./models/PostulationsModel.js";
+import { defineWhiteListModel } from "./models/WhiteListModel.js";
 import { databaseUrl } from "./config/config.js";
 
 if (!databaseUrl) {
@@ -17,6 +18,7 @@ const sequelize = new Sequelize(databaseUrl, {
 const models = {
   User: defineUserModel(sequelize),
   Postulations: definePostulationsModel(sequelize),
+  WhiteList: defineWhiteListModel(sequelize),
 };
 
 models.User.hasMany(models.Postulations, {
