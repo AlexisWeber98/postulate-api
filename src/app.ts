@@ -9,6 +9,7 @@ import { generalLimiter, authLimiter } from "./middlware/rateLimit.js";
 import { userRouter } from "./modules/users/userRoutes.js";
 import { authRouter } from "./modules/users/authRoutes.js";
 import { postulationRouter } from "./modules/postulations/postulationRoutes.js";
+import { iaRouter } from "./modules/IAModule/iaRoutes.js";
 
 import {
   frontendUrl,
@@ -50,6 +51,7 @@ app.use("/", generalLimiter, route);
 
 app.use("/users", validateApiKey, authenticate, userRouter);
 app.use("/postulations", validateApiKey, authenticate, postulationRouter);
+app.use("/ia", validateApiKey, authenticate, iaRouter);
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: error.message });
