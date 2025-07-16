@@ -13,3 +13,6 @@ export const frontendUrlWww = process.env.FRONTEND_URL_WWW;
 export const frontendUrlDevelop1 = process.env.FRONTEND_URL_DEVELOP1;
 export const frontendUrlDevelop2 = process.env.FRONTEND_URL_DEVELOP2;
 export const databaseUrl = process.env.DATABASE_URL;
+export const groqApiKey = process.env.GROQ_API_KEY;
+export const groqApi = process.env.GROQ_API;
+export const iaModel = process.env.IA_MODEL;
