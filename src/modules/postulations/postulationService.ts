@@ -1,13 +1,17 @@
 import db from "../../db.js";
 import { ReqPostBody } from "./interface.js";
-const { Postulations, User } = db.models;
 import { Logger } from "../../utils/logger.js";
 import {
   ValidationError,
   DatabaseError,
   NotFoundError,
 } from "../../utils/errors.js";
-import { getPaginationParams, buildPaginationResult } from "../../utils/pagination.js";
+import {
+  getPaginationParams,
+  buildPaginationResult,
+} from "../../utils/pagination.js";
+
+const { Postulations, User } = db.models;
 
 export const postPostulationService = async (body: ReqPostBody) => {
   const {
@@ -58,7 +62,7 @@ export const postPostulationService = async (body: ReqPostBody) => {
 export const getAllPostulationsService = async (
   userId: string,
   filters: any,
-  pagination?: { page: number; limit: number }
+  pagination?: { page: number; limit: number },
 ) => {
   try {
     const whereClause: any = { userId };
