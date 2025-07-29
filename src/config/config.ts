@@ -16,3 +16,4 @@ export const databaseUrl = process.env.DATABASE_URL;
 export const groqApiKey = process.env.GROQ_API_KEY;
 export const groqApi = process.env.GROQ_API;
 export const iaModel = process.env.IA_MODEL;
+export const resendApiKey = process.env.RESEND_API_KEY;
