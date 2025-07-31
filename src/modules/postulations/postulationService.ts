@@ -52,7 +52,7 @@ export const postPostulationService = async (body: ReqPostBody) => {
     return data;
   } catch (error) {
     Logger.error("Error creating postulation", error as Error, { userId });
-    if (error instanceof ValidationError) {
+    if (error instanceof ValidationError || error instanceof NotFoundError) {
       throw error;
     }
     throw new DatabaseError("Error creating postulation");
