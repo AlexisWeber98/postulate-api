@@ -43,3 +43,48 @@ describe('Pruebas de integración - Postulaciones', () => {
     expect(respuestaDB.body).toMatchObject(nuevaPostulacion);
   });
 });
+
+describe('Pruebas de validación de datos - Postulaciones', () => {
+  it('Debería rechazar la creación de una postulación con campos faltantes', async () => {
+    const postulacionInvalida = {
+      email: 'juan.perez@example.com',
+    };
+
+    const respuesta = await request(app)
+      .post('/api/postulations')
+      .send(postulacionInvalida);
+
+    expect(respuesta.status).toBe(400);
+    expect(respuesta.body).toHaveProperty('error');
+  });
+
+  it('Debería rechazar la creación de una postulación con un email mal formado', async () => {
+    const postulacionInvalida = {
+      nombre: 'Juan Pérez',
+      email: 'juan.perez@com',
+      puesto: 'Desarrollador Backend',
+    };
+
+    const respuesta = await request(app)
+      .post('/api/postulations')
+      .send(postulacionInvalida);
+
+    expect(respuesta.status).toBe(400);
+    expect(respuesta.body).toHaveProperty('error');
+  });
+
+  it('Debería rechazar la creación de una postulación con campos vacíos', async () => {
+    const postulacionInvalida = {
+      nombre: '',
+      email: '',
+      puesto: '',
+    };
+
+    const respuesta = await request(app)
+      .post('/api/postulations')
+      .send(postulacionInvalida);
+
+    expect(respuesta.status).toBe(400);
+    expect(respuesta.body).toHaveProperty('error');
+  });
+});
