@@ -10,8 +10,8 @@ afterAll(async () => {
   await db.sequelize.close();
 });
 
-// Limpieza de datos después de cada prueba
-afterEach(async () => {
+// Limpieza de datos antes de cada prueba
+beforeEach(async () => {
   await db.sequelize.query('DELETE FROM "Postulations"'); // Elimina todas las postulaciones
 });
 
