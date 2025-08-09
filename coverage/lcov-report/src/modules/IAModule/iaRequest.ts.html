@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/18</span>
+                <span class='fraction'>14/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.76% </span>
+                <span class="strong">76.47% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/17</span>
+                <span class='fraction'>13/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -115,8 +115,8 @@
 <a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,24 +133,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,9 +163,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { groqApiKey, groqApi, iaModel } from "../../config/config.js";
 &nbsp;
-export const iaRequest = <span class="fstat-no" title="function not covered" >async </span>(prompt: string) =&gt; {
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const response = <span class="cstat-no" title="statement not covered" >await fetch(`${groqApi}`, {</span>
+export const iaRequest = async (prompt: string) =&gt; {
+  try {
+    const response = await fetch(`${groqApi}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${groqApiKey}`,
@@ -182,24 +182,24 @@ export const iaRequest = <span class="fstat-no" title="function not covered" >as
       }),
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!response.ok) {</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {
 <span class="cstat-no" title="statement not covered" >      throw new Error(`HTTP error! status: ${response.status}`);</span>
     }
 &nbsp;
 &nbsp;
-    const data = <span class="cstat-no" title="statement not covered" >await response.json(); </span>
+    const data = await response.json(); 
    
     // Extraer solo la respuesta de la IA 
-<span class="cstat-no" title="statement not covered" >    console.log("RESPUESTSA DE IA",data);</span>
-    const iaText = <span class="cstat-no" title="statement not covered" >data.choices[0].message.content;</span>
-<span class="cstat-no" title="statement not covered" >    console.log("RESPUESTSA DE IA",iaText);</span>
+    console.log("RESPUESTSA DE IA",data);
+    const iaText = data.choices[0].message.content;
+    console.log("RESPUESTSA DE IA",iaText);
 &nbsp;
     // Calcular tokens restantes (ajusta maxTokens según modelo)
-    const maxTokens = <span class="cstat-no" title="statement not covered" >4096; </span>
-    const userdTokens = <span class="cstat-no" title="statement not covered" >data.usage.total_tokens;</span>
-    const tokensRemaining = <span class="cstat-no" title="statement not covered" >maxTokens - userdTokens;</span>
+    const maxTokens = 4096; 
+    const userdTokens = data.usage.total_tokens;
+    const tokensRemaining = maxTokens - userdTokens;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       iaText,
       tokensRemaining
     };
@@ -217,7 +217,7 @@ export const iaRequest = <span class="fstat-no" title="function not covered" >as
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-08T22:15:17.496Z
+                at 2025-08-09T14:38:56.393Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
