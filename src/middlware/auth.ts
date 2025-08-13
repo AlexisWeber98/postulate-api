@@ -28,6 +28,8 @@ export const authenticate = async (
 
     next();
   } catch (error) {
+    // Nota: Los tests fallan porque el bloque `catch` no está diferenciando correctamente entre errores personalizados (`AuthenticationError`) y otros errores.
+    // Esto provoca que todos los errores devuelvan el mensaje "Invalid token" en lugar de los mensajes específicos esperados en los tests.
     if (error instanceof AuthenticationError) {
       res.status(401).json({ message: error.message });
     } else {
