@@ -31,6 +31,7 @@ export const createUserController = catchAsync(
       lastName.trim(),
       userName.trim(),
       email.trim().toLowerCase(),
+      password.trim(),
       imageUrl ? imageUrl.trim() : "",
     );
 
@@ -45,7 +46,10 @@ export const loginController = catchAsync(
     if (!email || !password)
       throw new ValidationError("Email or password not found");
 
-    const data = await login(email.toString(), password.toString());
+    const data = await login(
+      email.toString().toLowerCase(),
+      password.toString(),
+    );
 
     if (!data) throw new ValidationError("User not found");
 
