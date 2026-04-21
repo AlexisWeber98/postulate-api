@@ -70,7 +70,7 @@ export const createUser = async (
 
 export const login = async (email: string, password: string) => {
   const user = (await SequelizeUser.findOne({
-    where: { email },
+    where: { email: email.trim().toLowerCase() },
   })) as Model<UserModelInterface>;
   if (!user) {
     throw new AuthenticationError("user not found");
